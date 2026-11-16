@@ -1,0 +1,11 @@
+node_modules/
+out/
+release/
+dist/
+*.log
+.DS_Store
+Thumbs.db
+
+# 内置 ffmpeg 二进制体积过大，不入库（含各平台 LICENSE.txt）
+# 获取/替换方法见 resources/ffmpeg/README.md
+/resources/ffmpeg/*/

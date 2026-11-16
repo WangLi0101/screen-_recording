@@ -1,0 +1,37 @@
+appId: com.screenrec.desktop
+productName: ScreenRec
+directories:
+  output: release
+  buildResources: build
+files:
+  - out/**
+  - package.json
+# ffmpeg binaries are vendored per platform/arch in resources/ffmpeg.
+# electron-builder copies only the matching folder to <resources>/ffmpeg.
+win:
+  extraResources:
+    - from: resources/ffmpeg/win32-${arch}
+      to: ffmpeg
+  target:
+    - target: nsis
+      arch: [x64]
+  artifactName: ${productName}-${version}-${arch}.${ext}
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+mac:
+  extraResources:
+    - from: resources/ffmpeg/darwin-${arch}
+      to: ffmpeg
+  target: [dmg]
+  category: public.app-category.video
+  hardenedRuntime: true
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  # Hardened runtime requires every Mach-O in the bundle to be signed.
+  binaries:
+    - Contents/Resources/ffmpeg/ffmpeg
+# No bundled binary for linux yet; the app falls back to a system ffmpeg there.
+linux:
+  target: [AppImage]
+  category: AudioVideo

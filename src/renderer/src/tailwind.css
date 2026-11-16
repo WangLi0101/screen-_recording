@@ -1,0 +1,365 @@
+@import 'tailwindcss';
+
+@source './**/*.{ts,tsx}';
+@source '../*.html';
+
+/* ==========================================================================
+   Material Design 3 tokens
+   The runtime accent drives every primary/container role. Tokens stay as
+   plain CSS variables so theme.ts can repaint them without a rebuild.
+   ========================================================================== */
+
+:root {
+  --accent: #ef4444;
+  --accent-hover: #f15a5a;
+  --accent-strong: #c83737;
+  --accent-soft: rgba(239, 68, 68, 0.12);
+  --accent-glow: rgba(239, 68, 68, 0.2);
+  --accent-ring: rgba(239, 68, 68, 0.38);
+  --accent-selection: rgba(239, 68, 68, 0.32);
+  --accent-fade: rgba(239, 68, 68, 0);
+  --accent-contrast: #ffffff;
+
+  /* M3 neutral roles (dark) */
+  --surface: #141218;
+  --surface-dim: #141218;
+  --surface-bright: #3b383e;
+  --surface-container-lowest: #0f0d13;
+  --surface-container-low: #1d1b20;
+  --surface-container: #211f26;
+  --surface-container-high: #2b2930;
+  --surface-container-highest: #36343b;
+  --on-surface: #e6e0e9;
+  --on-surface-variant: #cac4d0;
+  --outline: #938f99;
+  --outline-variant: #49454f;
+  --inverse-surface: #e6e0e9;
+  --inverse-on-surface: #322f35;
+  --scrim: rgba(0, 0, 0, 0.55);
+
+  /* M3 error / status roles (dark) */
+  --error: #ffb4ab;
+  --on-error: #690005;
+  --error-container: #93000a;
+  --on-error-container: #ffdad6;
+  --ok: #34d399;
+  --ok-text: #a7f3d0;
+  --ok-container: #0d3b2e;
+  --warn: #fbbf24;
+  --warn-text: #fcd34d;
+  --warn-container: #3d2f0a;
+
+  /* Accent-derived roles */
+  --primary: var(--accent);
+  --on-primary: var(--accent-contrast);
+  --primary-container: color-mix(in srgb, var(--accent) 34%, var(--surface-container-low));
+  --on-primary-container: color-mix(in srgb, var(--accent) 32%, var(--on-surface));
+  --secondary-container: color-mix(in srgb, var(--accent) 24%, var(--surface-container-high));
+  --on-secondary-container: color-mix(in srgb, var(--accent) 30%, var(--on-surface));
+  --primary-hover: color-mix(in srgb, var(--on-primary) 10%, var(--primary));
+  --primary-active: color-mix(in srgb, var(--on-primary) 16%, var(--primary));
+
+  /* Interaction state layers */
+  --state-hover: rgba(230, 224, 233, 0.08);
+  --state-press: rgba(230, 224, 233, 0.12);
+  --state-drag: rgba(230, 224, 233, 0.16);
+
+  /* Media surfaces */
+  --media-bg: #000000;
+  --media-placeholder: var(--on-surface-variant);
+
+  /* Shape */
+  --radius-m3-xs: 4px;
+  --radius-m3-sm: 8px;
+  --radius-m3-md: 12px;
+  --radius-m3-lg: 16px;
+  --radius-m3-xl: 28px;
+
+  /* Elevation */
+  --elevation-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+  --elevation-2: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+  --elevation-3: 0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 8px 3px rgba(0, 0, 0, 0.15);
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 200ms;
+  --dur-fast: 120ms;
+
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  --surface: #fef7ff;
+  --surface-dim: #ded8e1;
+  --surface-bright: #fef7ff;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f7f2fa;
+  --surface-container: #f3edf7;
+  --surface-container-high: #ece6f0;
+  --surface-container-highest: #e6e0e9;
+  --on-surface: #1d1b20;
+  --on-surface-variant: #49454f;
+  --outline: #79747e;
+  --outline-variant: #cac4d0;
+  --inverse-surface: #322f35;
+  --inverse-on-surface: #f4eff4;
+  --scrim: rgba(0, 0, 0, 0.32);
+
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+  --error-container: #ffdad6;
+  --on-error-container: #410002;
+  --ok: #10b981;
+  --ok-text: #047857;
+  --ok-container: #d1fae5;
+  --warn: #d97706;
+  --warn-text: #92400e;
+  --warn-container: #fef3c7;
+
+  --primary-container: color-mix(in srgb, var(--accent) 20%, var(--surface-container-low));
+  --on-primary-container: color-mix(in srgb, var(--accent) 52%, var(--on-surface));
+  --secondary-container: color-mix(in srgb, var(--accent) 16%, var(--surface-container-high));
+  --on-secondary-container: color-mix(in srgb, var(--accent) 52%, var(--on-surface));
+
+  --state-hover: rgba(29, 27, 32, 0.08);
+  --state-press: rgba(29, 27, 32, 0.12);
+  --state-drag: rgba(29, 27, 32, 0.16);
+
+  --elevation-1: 0 1px 2px rgba(0, 0, 0, 0.15), 0 1px 3px 1px rgba(0, 0, 0, 0.08);
+  --elevation-2: 0 1px 2px rgba(0, 0, 0, 0.15), 0 2px 6px 2px rgba(0, 0, 0, 0.08);
+  --elevation-3: 0 1px 3px rgba(0, 0, 0, 0.15), 0 4px 8px 3px rgba(0, 0, 0, 0.08);
+
+  --media-bg: #e6e0e9;
+  --media-placeholder: var(--on-surface-variant);
+
+  color-scheme: light;
+}
+
+@theme inline {
+  --font-sans: 'Segoe UI Variable Text', 'Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', Roboto,
+    'PingFang SC', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Cascadia Code', Consolas, monospace;
+
+  /* shadcn semantic aliases */
+  --color-background: var(--surface);
+  --color-foreground: var(--on-surface);
+  --color-card: var(--surface-container-low);
+  --color-card-foreground: var(--on-surface);
+  --color-popover: var(--surface-container-high);
+  --color-popover-foreground: var(--on-surface);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--on-primary);
+  --color-secondary: var(--surface-container-high);
+  --color-secondary-foreground: var(--on-surface);
+  --color-muted: var(--surface-container);
+  --color-muted-foreground: var(--on-surface-variant);
+  --color-accent: var(--surface-container-high);
+  --color-accent-foreground: var(--on-surface);
+  --color-destructive: var(--error);
+  --color-destructive-foreground: var(--on-error);
+  --color-border: var(--outline-variant);
+  --color-input: var(--outline);
+  --color-ring: var(--primary);
+
+  /* M3 roles exposed as utilities */
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-inverse-surface: var(--inverse-surface);
+  --color-inverse-on-surface: var(--inverse-on-surface);
+  --color-on-primary: var(--on-primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary-container: var(--on-primary-container);
+  --color-secondary-container: var(--secondary-container);
+  --color-on-secondary-container: var(--on-secondary-container);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-error: var(--error);
+  --color-on-error: var(--on-error);
+  --color-error-container: var(--error-container);
+  --color-on-error-container: var(--on-error-container);
+  --color-ok: var(--ok);
+  --color-ok-text: var(--ok-text);
+  --color-ok-container: var(--ok-container);
+  --color-warn: var(--warn);
+  --color-warn-text: var(--warn-text);
+  --color-warn-container: var(--warn-container);
+  --color-scrim: var(--scrim);
+  --color-media-bg: var(--media-bg);
+  --color-media-placeholder: var(--media-placeholder);
+
+  /* Derived interaction colors */
+  --color-state-hover: var(--state-hover);
+  --color-state-press: var(--state-press);
+  --color-surface-hover: color-mix(in srgb, var(--on-surface) 8%, var(--surface-container-high));
+  --color-surface-press: color-mix(in srgb, var(--on-surface) 12%, var(--surface-container-high));
+  --color-primary-veil: color-mix(in srgb, var(--primary) 8%, transparent);
+  --color-primary-veil-strong: color-mix(in srgb, var(--primary) 14%, transparent);
+  --color-error-veil: color-mix(in srgb, var(--error) 14%, transparent);
+  --color-primary-soft: color-mix(in srgb, var(--primary) 10%, var(--surface-container-low));
+
+  /* M3 shape scale */
+  --radius-m3-xs: 4px;
+  --radius-m3-sm: 8px;
+  --radius-m3-md: 12px;
+  --radius-m3-lg: 16px;
+  --radius-m3-xl: 28px;
+
+  /* M3 elevation */
+  --shadow-elevation-1: var(--elevation-1);
+  --shadow-elevation-2: var(--elevation-2);
+  --shadow-elevation-3: var(--elevation-3);
+
+  /* Motion */
+  --animate-fade-in: fade-in 150ms var(--ease);
+  --animate-dialog-in: dialog-in 200ms var(--ease);
+  --animate-toast-in: toast-in 250ms var(--ease);
+  --animate-select-in: select-in 140ms var(--ease);
+  --animate-pulse-ring: pulse-ring 1.4s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes select-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-ring {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 var(--accent-ring);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 0 6px var(--accent-fade);
+  }
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--outline-variant);
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: transparent;
+    color: var(--on-surface);
+    font-family: 'Segoe UI Variable Text', 'Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', Roboto,
+      'PingFang SC', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
+    overflow: hidden;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: var(--accent-selection);
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--outline-variant);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--outline);
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+@utility drag {
+  -webkit-app-region: drag;
+}
+
+@utility no-drag {
+  -webkit-app-region: no-drag;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
