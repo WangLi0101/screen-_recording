@@ -9,6 +9,7 @@ files:
 # ffmpeg binaries are vendored per platform/arch in resources/ffmpeg.
 # electron-builder copies only the matching folder to <resources>/ffmpeg.
 win:
+  icon: build/icon.ico
   extraResources:
     - from: resources/ffmpeg/win32-${arch}
       to: ffmpeg
@@ -19,7 +20,11 @@ win:
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  installerHeaderIcon: build/icon.ico
 mac:
+  icon: build/icon.icns
   extraResources:
     - from: resources/ffmpeg/darwin-${arch}
       to: ffmpeg
@@ -33,5 +38,6 @@ mac:
     - Contents/Resources/ffmpeg/ffmpeg
 # No bundled binary for linux yet; the app falls back to a system ffmpeg there.
 linux:
+  icon: build/icon.png
   target: [AppImage]
   category: AudioVideo
