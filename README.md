@@ -26,6 +26,10 @@ npm run build      # 产出 out/
 npm run dist       # 打包安装包到 release/
 ```
 
+> ffmpeg 二进制不入库（三个平台合计约 198 MB），首次 clone 后先执行 `npm run fetch-ffmpeg`
+> 把它下载到 `resources/ffmpeg/<平台-架构>/`；否则 `npm run dist` 会在门禁处失败，导出也只能「原样复制」。
+> 细节（换源、替换二进制、许可证）见 `resources/ffmpeg/README.md`。
+
 录制文件默认保存到「视频/ScreenRec」，可在设置里修改。
 
 ## 目录结构
@@ -40,6 +44,8 @@ src/
     control.html   悬浮控制条
     region.html    区域选择遮罩
   shared/     跨进程共享的类型与 IPC 通道名
+resources/ffmpeg/  各平台 ffmpeg 二进制（不入库，`npm run fetch-ffmpeg` 拉取）
+scripts/           构建辅助脚本（ffmpeg 拉取与打包前校验）
 docs/         竞品调研、需求文档、技术方案
 ```
 

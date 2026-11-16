@@ -40,13 +40,29 @@ make -j$(sysctl -n hw.ncpu)
 
 Windows 二进制若要闭源分发，同样应换成 LGPL 构建，或完成 GPL 合规（随包附带许可证与源码获取方式）。
 
+## 获取二进制（新克隆的仓库）
+
+二进制不入库（`.gitignore` 忽略了 `/resources/ffmpeg/*/`），执行一次即可：
+
+```bash
+npm run fetch-ffmpeg              # 当前平台 + 当前架构
+npm run fetch-ffmpeg -- --force   # 重新下载覆盖
+npm run fetch-ffmpeg -- --arch=arm64
+```
+
+脚本按 `FFMPEG_RELEASE`（默认 `b6.1.1`）从 ffmpeg-static 的 Release 下载
+`ffmpeg-<platform>-<arch>.gz` 与同名 `.LICENSE`，网络受限时可用
+`FFMPEG_BINARIES_URL` 指向镜像。
+
 ## 更新二进制
 
 ```bash
 # 覆盖对应目录后跑一次校验/打包
+npm run fetch-ffmpeg -- --force
 node scripts/verify-ffmpeg.mjs
 npm run dist
 ```
 
-注意：`resources/ffmpeg/**` 里的可执行文件必须提交到仓库（不要加进 `.gitignore`）。
-单文件不要超过 100 MB，否则会被 GitHub 拒绝推送。
+注意：二进制**不入库**（`/resources/ffmpeg/*/` 已被 `.gitignore` 忽略），
+每个环境用 `npm run fetch-ffmpeg` 或手动放置；只有本目录的 `README.md` 会提交。
+如需把二进制纳入版本管理，改用 Git LFS（单文件仍需小于 100 MB，否则 GitHub 拒收）。

@@ -16,7 +16,7 @@ const bin = join(root, 'resources', 'ffmpeg', archDir, name)
 
 if (!existsSync(bin) || !statSync(bin).isFile()) {
   console.error(`[verify-ffmpeg] 缺少 ${archDir} 的 ffmpeg 二进制：${bin}`)
-  console.error('[verify-ffmpeg] 请把对应平台的 ffmpeg 放进 resources/ffmpeg/<platform>-<arch>/')
+  console.error('[verify-ffmpeg] 请执行 `npm run fetch-ffmpeg`，或按 resources/ffmpeg/README.md 手动放入')
   console.error('[verify-ffmpeg] 参考 resources/ffmpeg/README.md')
   process.exit(1)
 }
